@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace ClearCore
@@ -6,9 +7,11 @@ namespace ClearCore
     public partial class MainMenu : Form
     {
         public static PluginsAPI.PluginUpdater PluginUpdater = new PluginsAPI.PluginUpdater();
+        public ColorConverter colorConverter = new ColorConverter();
         public MainMenu()
         {
             InitializeComponent();
+            panelDesktop.BackColor = (Color)colorConverter.ConvertFromString("#393939");
         }
         private Form currentChildForm;
         private string currentChildFormname;
@@ -36,6 +39,7 @@ namespace ClearCore
                 childForm.Show();
             }
         }
+        public Cleaner.CleanerForm cleaner = new Cleaner.CleanerForm();
         private void Form1_Load(object sender, EventArgs e)
         {
             BrokenCoreAPI.UserInfo userInfo = new BrokenCoreAPI.UserInfo();
@@ -44,6 +48,11 @@ namespace ClearCore
             Console.WriteLine(userInfo.Messages);
             Console.WriteLine(userInfo.Resources);
             Console.WriteLine(userInfo.Reactions);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(cleaner, false);
         }
     }
 }

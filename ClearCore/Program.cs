@@ -11,12 +11,14 @@ namespace ClearCore
         /// <summary>
         /// Главная точка входа для приложения.
         /// </summary>
+        public static MainMenu mainMenu;
         [STAThread]
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainMenu());
+            mainMenu = new MainMenu();
+            Application.Run(mainMenu);
         }
     }
 }
