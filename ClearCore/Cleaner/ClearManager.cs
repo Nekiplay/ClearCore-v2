@@ -1,13 +1,9 @@
-﻿using Microsoft.Win32;
-using PluginsAPI;
+﻿using PluginsAPI;
 using Shell32;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -27,7 +23,7 @@ namespace ClearCore.Cleaner
         public class CstBut
         {
             public string Type;
-            public CheckBox Switch;
+            public XanderUI.XUICheckBox Switch;
             public Label label;
         }
         List<string> buttons_texts = new List<string>();
@@ -46,27 +42,46 @@ namespace ClearCore.Cleaner
                     {
                         foreach (CleanerSettings setting in GetByType(bt.Type))
                         {
-                            Task t = Task.Factory.StartNew(() =>
+                            Task<bool> t = new Task<bool>(() =>
                             {
                                 if (bt.label.Text == "Корзина")
                                 {
                                     cleared += res;
                                 }
                                 cleared += setting.Clear();
-                                bt.Switch.Invoke(new Action(() => { bt.Switch.Checked = false; }));
+                                if (bt.Switch.Checked == true)
+                                {
+                                    bt.Switch.Invoke(new Action(() => { bt.Switch.Checked = false; }));
+                                }
                                 return true;
                             });
                             tasks.Add(t);
                         }
                     }
                 }
+                int temp = 0;
                 foreach (Task t in tasks)
                 {
+                    t.Start();
                     t.Wait();
+                    temp++;
+                    form.xuiCircleProgressBar1.Invoke(new Action(() => { form.xuiCircleProgressBar1.Percentage = GetPercent(tasks.Count, temp); }));
                 }
             });
             await cl;
             return cleared;
+        }
+        public int GetPercent(int b, int a)
+        {
+            if (b == 0) return 0;
+
+            return (int)(a / (b / 100M));
+        }
+        public int GetPercent(long b, long a)
+        {
+            if (b == 0) return 0;
+
+            return (int)(a / (b / 100M));
         }
         public string BytesToString(long byteCount)
         {
@@ -82,7 +97,6 @@ namespace ClearCore.Cleaner
         public void UpdateUI()
         {
             int offset = 0;
-            form.Invoke(new Action(() => { form.button1.Visible = false; }));
             foreach (CstBut butrem in bts)
             {
                 form.Invoke(new Action(() => { form.Controls.Remove(butrem.Switch); }));
@@ -90,7 +104,7 @@ namespace ClearCore.Cleaner
             }
             bts.Clear();
             buttons_texts.Clear();
-            //form.Invoke(new Action(() => { form.label1.Text = "БазаДанных: " + Program.mainMenu.cleaner.clearManager.DataBase.Count; }));
+            form.Invoke(new Action(() => { form.label1.Visible = true; form.label1.Text = "БазаДанных: " + Program.mainMenu.cleaner.clearManager.DataBase.Count; }));
             foreach (CleanerSettings st in Program.mainMenu.cleaner.clearManager.DataBase)
             {
                 if (!buttons_texts.Contains(st.Type))
@@ -100,16 +114,18 @@ namespace ClearCore.Cleaner
             }
             foreach (string cst2 in buttons_texts)
             {
-                CheckBox guna2 = new CheckBox();
+                XanderUI.XUICheckBox guna2 = new XanderUI.XUICheckBox();
                 guna2.Location = new Point(15, 27 + offset);
-                guna2.BackColor = form.BackColor;
+                guna2.Size = new Size(30, 20);
+                guna2.CheckboxStyle = XanderUI.XUICheckBox.Style.iOS;
                 Label text = new Label();
                 text.AutoSize = true;
                 text.Text = cst2;
-                text.ForeColor = Color.White;
+                text.BackColor = Color.Transparent;
+                text.ForeColor = Color.Black;
                 text.Font = new Font("Segoe UI", 9, FontStyle.Regular);
                 text.Location = new Point(35, 29 + offset);
-                offset += 23;
+                offset += 22;
                 CstBut ct = new CstBut();
                 ct.Type = cst2;
                 ct.Switch = guna2;
@@ -118,26 +134,33 @@ namespace ClearCore.Cleaner
                 form.Invoke(new Action(() => { form.Controls.Add(text); }));
                 form.Invoke(new Action(() => { form.Controls.Add(guna2); }));
             }
-            form.Invoke(new Action(() => { form.button1.Location = new Point(form.button1.Location.X, 30 + offset); }));
-            form.Invoke(new Action(() => { form.button1.Visible = true; }));
+            form.Invoke(new Action(() => { form.xuiButton1.Location = new Point(form.xuiButton1.Location.X, 30 + offset); }));
+            form.Invoke(new Action(() => { form.xuiButton2.Location = new Point(form.xuiButton2.Location.X, 30 + offset); }));
+            form.Invoke(new Action(() => { form.xuiButton3.Location = new Point(form.xuiButton3.Location.X, 30 + offset); }));
+            form.Invoke(new Action(() => { form.xuiButton4.Location = new Point(form.xuiButton4.Location.X, 30 + offset); }));
+            form.Invoke(new Action(() => { form.xuiCircleProgressBar1.Location = new Point(form.xuiButton1.Location.X, 70 + offset); }));
+            form.Invoke(new Action(() => { form.xuiButton1.Visible = true; }));
+            form.Invoke(new Action(() => { form.xuiButton2.Visible = true; }));
+            form.Invoke(new Action(() => { form.xuiButton3.Visible = true; }));
+            form.Invoke(new Action(() => { form.xuiButton4.Visible = true; }));
         }
         public async void UpdateCheckedUI()
         {
-            form.button1.Enabled = false;
+            form.xuiButton1.Enabled = false;
             Task cl = Task.Factory.StartNew(() =>
             {
                 foreach (CstBut bt in bts)
                 {
-                    if (bt.Switch.Checked == true) { bt.Switch.Invoke(new Action(() => { bt.Switch.Checked = false; })); }
-                    else { bt.Switch.Invoke(new Action(() => { bt.Switch.Checked = true; })); }
+                    bt.Switch.Invoke(new Action(() => { bt.Switch.Checked = !bt.Switch.Checked; }));
                 }
             });
             await cl;
-            form.button1.Enabled = true;
+            form.xuiButton1.Enabled = true;
         }
         #endregion
         #region Работа с базой данных
-        private WebScript CleanerDataBaseUpdater = new WebScript("https://nekiplay.000webhostapp.com/public_html/Cleaner/CleanerUpdater.cs");
+        public static readonly string DataBaseURL = "https://nekiplay.000webhostapp.com/public_html/Cleaner/CleanerUpdater.cs";
+        public Plugin CleanerDataBaseUpdater = new WebScript(DataBaseURL);
 
         private static PluginUpdater PluginUpdater = new PluginUpdater();
         private PluginClient PluginClient = new PluginClient(PluginUpdater);
@@ -145,7 +168,13 @@ namespace ClearCore.Cleaner
         public readonly List<CleanerSettings> DataBase = new List<CleanerSettings>();
 
         public Action OnLoadDone = null;
-
+        public void LoadCustom(Plugin plugin)
+        {
+            CleanerDataBaseUpdater = plugin;
+            ClearDataBase();
+            PluginClient.PluginLoad(CleanerDataBaseUpdater);
+            UpdateUI();
+        }
         private void OnPluginPost(object obj)
         {
             if (obj.GetType() == typeof(CleanerSettings))
@@ -160,16 +189,22 @@ namespace ClearCore.Cleaner
                 {
                     if (OnLoadDone != null)
                     {
-                        PluginClient.PluginUnLoad(this.CleanerDataBaseUpdater);
                         OnLoadDone();
                     }
+                    PluginClient.PluginUnLoad(this.CleanerDataBaseUpdater);
                 }
             }
         }
 
         public void ClearDataBase()
         {
+            foreach (CstBut butrem in bts)
+            {
+                form.Invoke(new Action(() => { form.Controls.Remove(butrem.Switch); }));
+                form.Invoke(new Action(() => { form.Controls.Remove(butrem.label); }));
+            }
             DataBase.Clear();
+            bts.Clear();
             PluginClient.PluginUnLoad(this.CleanerDataBaseUpdater);
         }
         public long ResycleBinSize()

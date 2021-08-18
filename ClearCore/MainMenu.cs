@@ -6,12 +6,11 @@ namespace ClearCore
 {
     public partial class MainMenu : Form
     {
-        public static PluginsAPI.PluginUpdater PluginUpdater = new PluginsAPI.PluginUpdater();
         public ColorConverter colorConverter = new ColorConverter();
         public MainMenu()
         {
             InitializeComponent();
-            panelDesktop.BackColor = (Color)colorConverter.ConvertFromString("#393939");
+            OpenChildForm(cleaner, false);
         }
         private Form currentChildForm;
         private string currentChildFormname;
@@ -40,19 +39,31 @@ namespace ClearCore
             }
         }
         public Cleaner.CleanerForm cleaner = new Cleaner.CleanerForm();
+        public ColorEditForm colorEdit = new ColorEditForm();
+        public ThemeManager themeManager = new ThemeManager();
         private void Form1_Load(object sender, EventArgs e)
         {
-            BrokenCoreAPI.UserInfo userInfo = new BrokenCoreAPI.UserInfo();
-            userInfo.Parse("https://brokencore.club/members/1656/");
-            Console.WriteLine(userInfo.Nickname);
-            Console.WriteLine(userInfo.Messages);
-            Console.WriteLine(userInfo.Resources);
-            Console.WriteLine(userInfo.Reactions);
+            this.FormBorderStyle = FormBorderStyle.None;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void MainMenu_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            System.Diagnostics.Process.GetCurrentProcess().Kill();
+        }
+
+        private void xuiButton1_Click(object sender, EventArgs e)
         {
             OpenChildForm(cleaner, false);
+        }
+
+        private void xuiButton2_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.GetCurrentProcess().Kill();
+        }
+
+        private void xuiButton3_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(colorEdit, false);
         }
     }
 }
