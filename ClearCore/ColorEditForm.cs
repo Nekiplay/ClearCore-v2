@@ -20,7 +20,7 @@ namespace ClearCore
         private void xuiColorPicker1_SelectedColorChanged(object sender, EventArgs e)
         {
             ThemeManager theme = Program.mainMenu.themeManager;
-            theme.BackColor = xuiColorPicker1.SelectedColor;
+            //theme.BackColor = xuiColorPicker1.SelectedColor;
             theme.ApplyColors();
         }
     }

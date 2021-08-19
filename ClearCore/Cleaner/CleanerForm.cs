@@ -8,17 +8,16 @@ namespace ClearCore.Cleaner
     {
         public CleanerForm()
         {
-            clearManager = new CleanerManager(this);
             InitializeComponent();
-            clearManager.OnLoadDone = () =>
-            {
-                clearManager.UpdateUI();
-            };
         }
         public CleanerManager clearManager = null;
         private void CleanerForm_Load(object sender, EventArgs e)
         {
-            
+            clearManager = new CleanerManager(this);
+            clearManager.OnLoadDone = () =>
+            {
+                clearManager.UpdateUI();
+            };
         }
         private async void xuiButton1_MouseDown(object sender, MouseEventArgs e)
         {

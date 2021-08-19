@@ -39,6 +39,8 @@ namespace ClearCore
             }
         }
         public Cleaner.CleanerForm cleaner = new Cleaner.CleanerForm();
+        public Optimize.OptimizeForm optimize = new Optimize.OptimizeForm();
+
         public ColorEditForm colorEdit = new ColorEditForm();
         public ThemeManager themeManager = new ThemeManager();
         private void Form1_Load(object sender, EventArgs e)
@@ -64,6 +66,11 @@ namespace ClearCore
         private void xuiButton3_Click(object sender, EventArgs e)
         {
             OpenChildForm(colorEdit, false);
+        }
+
+        private void xuiButton4_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(optimize, false);
         }
     }
 }

@@ -33,6 +33,7 @@ namespace ClearCore
             this.panelDesktop = new System.Windows.Forms.Panel();
             this.xuiObjectEllipse1 = new XanderUI.XUIObjectEllipse();
             this.xuiFormHandle1 = new XanderUI.XUIFormHandle();
+            this.xuiButton4 = new XanderUI.XUIButton();
             this.xuiButton3 = new XanderUI.XUIButton();
             this.xuiButton2 = new XanderUI.XUIButton();
             this.xuiButton1 = new XanderUI.XUIButton();
@@ -42,6 +43,7 @@ namespace ClearCore
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Silver;
+            this.panel1.Controls.Add(this.xuiButton4);
             this.panel1.Controls.Add(this.xuiButton3);
             this.panel1.Controls.Add(this.xuiButton2);
             this.panel1.Controls.Add(this.xuiButton1);
@@ -70,6 +72,27 @@ namespace ClearCore
             // 
             this.xuiFormHandle1.DockAtTop = true;
             this.xuiFormHandle1.HandleControl = this.panel1;
+            // 
+            // xuiButton4
+            // 
+            this.xuiButton4.BackgroundColor = System.Drawing.Color.Silver;
+            this.xuiButton4.ButtonImage = global::ClearCore.Properties.Resources.web_optimization;
+            this.xuiButton4.ButtonStyle = XanderUI.XUIButton.Style.MaterialRounded;
+            this.xuiButton4.ButtonText = "Оптимизация";
+            this.xuiButton4.ClickBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(195)))), ((int)(((byte)(195)))));
+            this.xuiButton4.ClickTextColor = System.Drawing.Color.DodgerBlue;
+            this.xuiButton4.CornerRadius = 5;
+            this.xuiButton4.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
+            this.xuiButton4.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.xuiButton4.HoverTextColor = System.Drawing.Color.DodgerBlue;
+            this.xuiButton4.ImagePosition = XanderUI.XUIButton.imgPosition.Left;
+            this.xuiButton4.Location = new System.Drawing.Point(85, 9);
+            this.xuiButton4.Name = "xuiButton4";
+            this.xuiButton4.Size = new System.Drawing.Size(97, 21);
+            this.xuiButton4.TabIndex = 9;
+            this.xuiButton4.TextColor = System.Drawing.Color.Black;
+            this.xuiButton4.Vertical_Alignment = System.Drawing.StringAlignment.Center;
+            this.xuiButton4.Click += new System.EventHandler(this.xuiButton4_Click);
             // 
             // xuiButton3
             // 
@@ -160,6 +183,7 @@ namespace ClearCore
         private XanderUI.XUIFormHandle xuiFormHandle1;
         public XanderUI.XUIButton xuiButton3;
         public System.Windows.Forms.Panel panelDesktop;
+        public XanderUI.XUIButton xuiButton4;
     }
 }
 

@@ -187,11 +187,11 @@ namespace ClearCore.Cleaner
                 string text = (string)obj;
                 if (text == "LoadDone")
                 {
+                    PluginClient.PluginUnLoad(this.CleanerDataBaseUpdater);
                     if (OnLoadDone != null)
                     {
                         OnLoadDone();
                     }
-                    PluginClient.PluginUnLoad(this.CleanerDataBaseUpdater);
                 }
             }
         }

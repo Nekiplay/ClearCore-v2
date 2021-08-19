@@ -88,6 +88,14 @@
     <Compile Include="MainMenu.Designer.cs">
       <DependentUpon>MainMenu.cs</DependentUpon>
     </Compile>
+    <Compile Include="Optimize\OptimizeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Optimize\OptimizeForm.Designer.cs">
+      <DependentUpon>OptimizeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Optimize\OptimizeManager.cs" />
+    <Compile Include="Optimize\OptimizeSettings.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThemeManager.cs" />
@@ -102,6 +110,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Optimize\OptimizeForm.resx">
+      <DependentUpon>OptimizeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -165,6 +176,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\paint-palette.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\web-optimization.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
